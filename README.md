@@ -23,7 +23,7 @@ You can visit the website [here](https://johanfortus.github.io/Weather-App/).
 
 ## APIs Used
 
-- [Weatherbit]([https://www.tvmaze.com/api](https://www.weatherbit.io/)
-- [ipgeolocation]([https://www.tvmaze.com/api](https://ipgeolocation.io/)
+- [Weatherbit]([https://www.tvmaze.com/api](https://www.weatherbit.io/])
+- [ipgeolocation]([https://www.tvmaze.com/api](https://ipgeolocation.io/])
 
 <img src="https://github.com/johanfortus/Weather-App/blob/main/assets/WeatherAppDemo.gif" /> 
