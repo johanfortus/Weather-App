@@ -1,0 +1,23 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css');
+html,
+body {
+  height: 100%
+}
+
+body {
+    background-color: rgba(67,174,252,255);
+}
+
+.light-blue-color{
+    color: rgba(67,174,252,255);;
+}
+
+.card-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.backIcon:hover{
+    cursor: pointer;
+}
