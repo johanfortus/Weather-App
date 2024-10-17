@@ -9,9 +9,7 @@ I created a straightforward and intuitive weather application designed to offer 
 
 The application was developed with web technologies, leveraging HTML for its foundational structure, Bootstrap for a mobile-responsive layout, JavaScript for adding dynamic functionalities, jQuery for simplified DOM manipulations, and Axios for efficient HTTP requests to interact with external APIs.
 
-For accurate weather data, this app utilizes two primary APIs: the Weatherbit API for fetching detailed weather conditions and the IPGeolocation API to determine the user's current location for location-based weather reporting.
-
-You can visit the website [here](https://johanfortus.github.io/Weather-App/).
+For accurate weather data, this app utilizes two primary APIs: the Weather API for fetching detailed weather conditions and the IPGeolocation API to determine the user's current location for location-based weather reporting.
 
 ## Built With
 
@@ -23,7 +21,7 @@ You can visit the website [here](https://johanfortus.github.io/Weather-App/).
 
 ## APIs Used
 
-- [Weatherbit](https://www.weatherbit.io/)
+- [WeatherAPI](https://www.weatherapi.com/)
 - [ipgeolocation](https://ipgeolocation.io/)
 
 <img src="https://github.com/johanfortus/Weather-App/blob/main/assets/WeatherAppDemo.gif" /> 

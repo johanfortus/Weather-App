@@ -4,90 +4,76 @@ let locationButton = document.querySelector('.location-btn')
 let input = document.querySelector('input')
 let cardHeader = document.querySelector('.card-header')
 
+// Insert API Keys
+let weatherApiKey = "";
+let geolocationApiKey = "";
 
 // Clear Card Body Function
 emptyCardBody = () => $cardBody.empty();
 
-
 // Get weather through User Input
 document.addEventListener('submit', async function(e){
-    emptyCardBody()
-    let backIcon = document.createElement('span')
-    backIcon.setAttribute('class', 'backIcon')
-    backIcon.innerHTML = "<a href='.'><i class='fa-solid fa-circle-arrow-left' style='color: rgba(67,174,252,255);'></i></a>"
+    e.preventDefault();
 
+    // Get User Input
+    let userInput = input.value;
 
-    let userInput = input.value
-    console.log("User Input: ", userInput)
-
-    let weather = await axios.get(`https://api.weatherbit.io/v2.0/current?lat=35.7796&lon=-78.6382&key=a000c8b112b641b0859b59e065596991&include=minutely&city=${userInput}`)
-
-
-    let weatherIconCode = weather.data.data[0].weather.icon
-    let weatherIcon = document.createElement('img')
-    weatherIcon.src = `https://cdn.weatherbit.io/static/img/icons/${weatherIconCode}.png`
-    
-    let celcius = weather.data.data[0].temp
-    let farenheight = Math.round((celcius * 1.8) + 32)
-    let weatherTemp = document.createElement('h1')
-    weatherTemp.innerText = `${farenheight}°F`
-    
-    let weatherDescription = weather.data.data[0].weather.description
-    let weatherDesc = document.createElement('h4')
-    weatherDesc.innerText = `${weatherDescription}`
-
-    let weatherLocation = document.createElement('h6')
-    let city = weather.data.data[0].city_name
-    let country = weather.data.data[0].country_code
-    weatherLocation.innerHTML = `<i class="fa-solid fa-location-dot" style="color: rgba(67,174,252,255);"></i> ${city}, ${country}`
-    
-    $cardBody.append(weatherIcon)
-    $cardBody.append(weatherTemp)
-    $cardBody.append(weatherDesc)
-    $cardBody.append(weatherLocation)
-    cardHeader.prepend(backIcon)
-  
+    // Pass User Input in WeatherAPI
+    let res = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${weatherApiKey}&q=${userInput}`);
+    createCard(res);
 
 })
 
 
 // Get Weather through location button via ipgeolocation API
 locationButton.addEventListener('click', async function(e){
+
+    // Get IP
+    let ipApi = await axios.get(`https://api.ipgeolocation.io/ipgeo?apiKey=${geolocationApiKey}`)
+    let ip = ipApi.data.ip;
+    
+    // Pass IP in WeatherAPI
+    let res = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${weatherApiKey}&q=${ip}`);
+    createCard(res);
+
+})
+
+// Update Card Content
+function createCard(res) {
+
+    // Empty Content
     emptyCardBody()
+
+    // Back Icon
     let backIcon = document.createElement('span')
     backIcon.setAttribute('class', 'backIcon')
     backIcon.innerHTML = "<a href='.'><i class='fa-solid fa-circle-arrow-left' style='color: rgba(67,174,252,255);'></i></a>"
+    cardHeader.prepend(backIcon);
 
+    // Icon
+    let icon = document.createElement("img");
+    let iconSrc = "https:" + res.data.current.condition.icon;
+    icon.setAttribute("src", iconSrc);
+    icon.setAttribute("height", "100px");
+    icon.setAttribute("width", "100px");
+    $cardBody.append(icon);
 
-    let res = await axios.get('https://api.ipgeolocation.io/ipgeo?apiKey=41fd8ed37aab42cb87a3c6427b26d1dc')
-    console.log(res)
-    city = res.data.city
-    country = res.data.country_code2
-    console.log(city, country)
+    // Temperature
+    let temperature = document.createElement("h1");
+    let temperatureData = `${res.data.current.temp_f}°F`;
+    temperature.innerText = temperatureData;
+    $cardBody.append(temperature);
 
-
-    let weather = await axios.get(`https://api.weatherbit.io/v2.0/current?lat=35.7796&lon=-78.6382&key=a000c8b112b641b0859b59e065596991&include=minutely&city=${city}&country=${country}`)
-
-    let weatherIconCode = weather.data.data[0].weather.icon
-    let weatherIcon = document.createElement('img')
-    weatherIcon.src = `https://cdn.weatherbit.io/static/img/icons/${weatherIconCode}.png`
+    // Weather Condition
+    let condition = document.createElement("h3");
+    let conditionData = res.data.current.condition.text;
+    condition.innerText = conditionData;
+    $cardBody.append(condition);
     
-    let celcius = weather.data.data[0].temp
-    let farenheight = Math.round((celcius * 1.8) + 32)
-    let weatherTemp = document.createElement('h1')
-    weatherTemp.innerText = `${farenheight}°F`
-    
-    let weatherDescription = weather.data.data[0].weather.description
-    let weatherDesc = document.createElement('h4')
-    weatherDesc.innerText = `${weatherDescription}`
-
-    let weatherLocation = document.createElement('h6')
-    weatherLocation.innerHTML = `<i class="fa-solid fa-location-dot" style="color: rgba(67,174,252,255);"></i> ${city}, ${country}`
-    
-    $cardBody.append(weatherIcon)
-    $cardBody.append(weatherTemp)
-    $cardBody.append(weatherDesc)
-    $cardBody.append(weatherLocation)
-    cardHeader.prepend(backIcon)
-    
-})
+    // Location
+    let location = document.createElement("h6");
+    let locationCity = res.data.location.name;
+    let locationCountry = res.data.location.country;
+    location.innerHTML = `<i class="fa-solid fa-location-dot" style="color: rgba(67,174,252,255);" ;aria-hidden="true"></i> ${locationCity}, ${locationCountry}`;
+    $cardBody.append(location);
+}
